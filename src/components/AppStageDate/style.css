@@ -1,0 +1,15 @@
+
+.appStageDate__box {
+}
+
+.appStageDate__selectPeriod {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.appStageDate__periodInfo {
+  display: inline-block;
+}

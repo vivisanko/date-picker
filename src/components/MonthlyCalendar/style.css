@@ -1,0 +1,16 @@
+
+
+.monthlyCalendar__weekBox {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+.monthlyCalendar__weekDays {
+  text-align: center;
+  list-style: none;
+ flex-grow: 1;
+ max-width: 14%;
+ border: 1px solid black;
+ font-size: 14px;
+  
+}

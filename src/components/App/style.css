@@ -1,0 +1,19 @@
+
+.app {
+
+}
+.app__dateBox {
+  margin: auto;
+  max-width: 800px;
+ display:flex;
+ flex-direction: row;
+ align-items: center;
+ justify-content: center;
+ flex-wrap: wrap;
+}
+
+.app__boxElement {
+  flex-grow: 1;
+  flex-basis: 320px;
+  padding: 0 10px;
+}
