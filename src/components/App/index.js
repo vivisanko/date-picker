@@ -24,8 +24,6 @@ class App extends PureComponent {
 
    
     componentWillMount(){
-        console.log('mounted');  
-        console.log('this.state',this.state);
         this.createEndPeriod("start", this.state.maxIntervalInMonth, "end");  
         this.createEndPeriod("start", 0, "startingCurrent"); 
         this.createEndPeriod("start", this.state.defaultIntervalInMonth, "endingCurrent");       
@@ -35,7 +33,6 @@ class App extends PureComponent {
 
     
     render(){
-        console.log('this.state',this.state);
     return (
         <div className="app">
             <div className="app__dateBox">
@@ -54,12 +51,7 @@ class App extends PureComponent {
   createEndPeriod = (start,interval,change)=>{
       let startMonth = this.state[start].getMonth();
       let newState = new Date( this.state[start]);
-      console.log('newState before',newState);
-      
-    //   newState.setMonth(startMonth + this.state[interval]);
-    newState.setMonth(startMonth + interval);
-
-    console.log('newState',newState);
+        newState.setMonth(startMonth + interval);
     
     this.setState({
         [change]: newState

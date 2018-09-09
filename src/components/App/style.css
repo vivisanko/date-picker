@@ -1,13 +1,15 @@
 
 .app {
-
+color: darkgray;
 }
+
+
 .app__dateBox {
   margin: auto;
   max-width: 800px;
  display:flex;
  flex-direction: row;
- align-items: center;
+ align-items: flex-start;
  justify-content: center;
  flex-wrap: wrap;
 }
