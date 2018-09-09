@@ -10,13 +10,13 @@ class MonthlyCalendar extends PureComponent {
             monthDays: [],
             userDate: null,
             userDay:null,
-            samePeriod: false,
+    
         }
     
     // this.determineNumberDaysInMonth = this.determineNumberDaysInMonth.bind(this);
     // this.determineStartWeekDay = this.determineStartWeekDay.bind(this);
     this.createMonthDays = this.createMonthDays.bind(this)
-    this.findOutIsTheSamePeriod = this.findOutIsTheSamePeriod.bind(this)
+
     }
 
     componentWillMount(){
@@ -25,7 +25,7 @@ class MonthlyCalendar extends PureComponent {
     
     componentWillReceiveProps(){
         this.createMonthDays();
-        this.findOutIsTheSamePeriod();
+
     }
 
     
@@ -37,7 +37,7 @@ class MonthlyCalendar extends PureComponent {
         )
           const days = this.state.monthDays.map((day, index)=>
             <div key={index} 
-            className = {[(day!=='')? "monthlyCalendar__weekDays monthlyCalendar__weekDays_withDate": "monthlyCalendar__weekDays", (this.state.userDay===day && this.state.samePeriod) ? "monthlyCalendar__selectedDate":''].join(' ')}
+            className = {[(day!=='')? "monthlyCalendar__weekDays monthlyCalendar__weekDays_withDate": "monthlyCalendar__weekDays", false ? "monthlyCalendar__selectedDate":''].join(' ')}
             onClick={this.handleClick.bind(this, index)}>
               {day}
             </div> 
@@ -95,16 +95,24 @@ class MonthlyCalendar extends PureComponent {
         while(currentMonth.length%7!==0){
         currentMonth.push("");
         }
+
+        console.log('currentMonth__________________',currentMonth);
+        console.log('this.state',this.state);
+        console.log('this.props',this.props);
+        
+        
         this.setState({
             monthDays:currentMonth
         })
    }
+
 
    handleClick=(ind)=>{
        if(this.state.monthDays[ind]!==''){
            let chosen=new Date(this.props.period);           
            chosen.setDate(this.state.monthDays[ind]);
            console.log('chosen',chosen);
+           this.props.dateClick(this.state.monthDays[ind]);
            
         this.setState({
             userDate: chosen,
@@ -115,18 +123,7 @@ class MonthlyCalendar extends PureComponent {
        
    }
 
-   findOutIsTheSamePeriod=()=>{
-       let period1 = new Date(this.props.period);
-       let period2 = new Date(this.state.userDate);
-       console.log('period1',period1);
-       console.log('period2',period2);
-    let isTheSame=(period1.getMonth()===period2.getMonth() && period1.getFullYear()===period2.getFullYear())? true : false;    
-    console.log('isTheSame',isTheSame);
-    
-    this.setState({
-        samePeriod: isTheSame
-    })  
-   }
+   
 }
 
 export default MonthlyCalendar;
