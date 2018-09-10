@@ -16,8 +16,8 @@ class MonthlyCalendar extends PureComponent {
         "Sunday"
       ],
       monthDays: [],
-      userDate: null,
-      userDay: null
+      // userDate: null,
+      // userDay: null
     };
 
     // this.determineNumberDaysInMonth = this.determineNumberDaysInMonth.bind(this);
@@ -29,8 +29,8 @@ class MonthlyCalendar extends PureComponent {
     this.createMonthDays();
   }
 
-  componentWillReceiveProps() {
-    this.createMonthDays();
+  componentWillReceiveProps(nextProps) {
+    this.createMonthDays(nextProps);
   }
 
   render() {
@@ -46,7 +46,7 @@ class MonthlyCalendar extends PureComponent {
           day !== ""
             ? "monthlyCalendar__weekDays monthlyCalendar__weekDays_withDate"
             : "monthlyCalendar__weekDays",
-          false ? "monthlyCalendar__selectedDate" : ""
+          day === this.props.userDay ? "monthlyCalendar__selectedDate" : ""
         ].join(" ")}
         onClick={this.handleClick.bind(this, index)}
       >
@@ -82,19 +82,18 @@ class MonthlyCalendar extends PureComponent {
     let startDay = new Date(this.props.period);
     startDay.setDate(1);
     console.log("startDay", startDay);
-    return startDay.getDay();
+   let weekDay = startDay.getDay()
+   
+    return weekDay === 0 ? 6 : (weekDay - 1);
   };
 
-  createMonthDays = () => {
+  createMonthDays = (props) => {
     let currentMonth = [];
     let day = 1;
-    const numberDaysInMonth = this.determineNumberDaysInMonth(this.props);
+    const numberDaysInMonth = this.determineNumberDaysInMonth(props);
     console.log("numberDaysInMonth", numberDaysInMonth);
 
-    let startInd =
-      this.determineStartWeekDay(this.props) === 0
-        ? 6
-        : this.determineStartWeekDay(this.props) - 1;
+    let startInd = this.determineStartWeekDay(props); 
     console.log("startInd", startInd);
     while (currentMonth.length < startInd) {
       currentMonth.push("");
@@ -112,9 +111,9 @@ class MonthlyCalendar extends PureComponent {
     console.log("this.state", this.state);
     console.log("this.props", this.props);
 
-    this.setState({
+    this.setState(()=>({
       monthDays: currentMonth
-    });
+    }));
   };
 
   handleClick = ind => {

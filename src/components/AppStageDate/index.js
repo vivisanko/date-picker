@@ -46,6 +46,7 @@ class AppStageDate extends PureComponent {
           period={this.state.selectedPeriod}
           chosen={this.state.selectedDate}
           dateClick={this.handleDateClick.bind(this)}
+          userDay = {this.determineIsItHasUserDay()}
         />
       </div>
     );
@@ -82,6 +83,15 @@ class AppStageDate extends PureComponent {
     });
   };
 
+  determineIsItHasUserDay(){
+    let date1 = new Date(this.state.selectedPeriod);
+    let date2 = new Date(this.state.selectedDate);
+    if(date1.getFullYear() === date2.getFullYear() && date1.getMonth()===date2.getMonth()){
+      return date2.getDate()
+    }
+    return null
+  }
+
   handleButtonClick = event => {
     console.log("click");
 
@@ -92,10 +102,11 @@ class AppStageDate extends PureComponent {
     let newState = new Date(this.state.selectedPeriod);
 
     newState.setMonth(startMonth + step);
-
-    this.setState({
+     console.log('newState',newState);
+     
+    this.setState(()=>({
       selectedPeriod: newState
-    });
+    }));
   };
 
   handleDateClick = day => {
