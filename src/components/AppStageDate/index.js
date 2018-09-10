@@ -31,6 +31,7 @@ class AppStageDate extends PureComponent {
 
   render() {
     // const { start, end, current } = this.props;
+    this.props.changeCurrentInterval(this.state.selectedDate);
     this.determineIsStepsDisable();
 
     return (
@@ -112,10 +113,6 @@ class AppStageDate extends PureComponent {
   handleDateClick = day => {
     console.log("click day", day);
 
-    // if(this.state.monthDays[ind]!==''){
-    //     let chosen=new Date(this.props.period);
-    //     chosen.setDate(this.state.monthDays[ind]);
-    //     console.log('chosen',chosen);
     let newDay = new Date(this.state.selectedPeriod);
     newDay.setDate(day);
     let from = new Date(this.props.start);

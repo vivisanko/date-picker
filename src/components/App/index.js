@@ -1,4 +1,4 @@
-import React, {PureComponent } from "react";
+import React, { PureComponent } from "react";
 import AppStageDate from "../AppStageDate";
 
 import "./style.css";
@@ -34,21 +34,29 @@ class App extends PureComponent {
       <div className="app">
         <div className="app__dateBox">
           <div className="app__boxElement">
-            <h1>Starting</h1>
+            <h1><span className="app__dateTitle">Starting  </span>{this.createDateString(this.state.startingCurrent)}</h1>
             <AppStageDate
               key="starting"
               start={this.state.start}
               end={this.state.end}
               current={this.state.startingCurrent}
+              changeCurrentInterval={this.changeCurrent.bind(
+                this,
+                "startingCurrent"
+              )}
             />
           </div>
           <div className="app__boxElement">
-            <h1>Ending</h1>
+            <h1><span className="app__dateTitle">Ending  </span>{this.createDateString(this.state.endingCurrent)}</h1>
             <AppStageDate
               key="ending"
-              start={this.state.start}
+              start={this.state.startingCurrent}
               end={this.state.end}
               current={this.state.endingCurrent}
+              changeCurrentInterval={this.changeCurrent.bind(
+                this,
+                "endingCurrent"
+              )}
             />
           </div>
         </div>
@@ -63,6 +71,36 @@ class App extends PureComponent {
     this.setState({
       [change]: newState
     });
+  };
+
+  changeCurrent = (key, newDate) => {
+    console.log("newDate", newDate);
+    console.log("key", key);
+
+    // this.setState(()=>({
+    //   [key]: new Date(newDate)
+    // }))
+  };
+
+  createDateString = (date) => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+    const day = date.getDate();
+    const mon=months[date.getMonth()];
+    const year= date.getFullYear();
+  return `${day} ${mon} ${year}`
   };
 }
 
