@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import NavigationPanel from "../NavigationPanel";
 import MonthlyCalendar from "../MonthlyCalendar";
 import "./style.css";
@@ -30,7 +30,7 @@ class AppStageDate extends PureComponent {
   // }
 
   render() {
-    const { start, end, current } = this.props;
+    // const { start, end, current } = this.props;
     this.determineIsStepsDisable();
 
     return (

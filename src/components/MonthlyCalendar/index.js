@@ -26,7 +26,7 @@ class MonthlyCalendar extends PureComponent {
   }
 
   componentWillMount() {
-    this.createMonthDays();
+    this.createMonthDays(this.props);
   }
 
   componentWillReceiveProps(nextProps) {

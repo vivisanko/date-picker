@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import "./style.css";
 
 class NavigationPanel extends PureComponent {
@@ -33,7 +33,7 @@ class NavigationPanel extends PureComponent {
 
   render() {
     const { period, buttonClick, isDisableNext, isDisablePrev } = this.props;
-    const body = new Date(period);
+
     // const body = this.state.isOpen && <section>{article.text}</section>
 
     return (
