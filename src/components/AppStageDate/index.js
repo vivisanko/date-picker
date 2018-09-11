@@ -9,8 +9,6 @@ class AppStageDate extends PureComponent {
 
     this.state = {
       selectedPeriod: null,
-      isDisablePrev: true,
-      isDisableNext: false,
       selectedDate: null
     };
     this.defaultSelectedPeriod = this.defaultSelectedPeriod.bind(this);
@@ -26,26 +24,22 @@ class AppStageDate extends PureComponent {
 
   render() {
   
-    if (this.state.start < this.state.selectedPeriod) {
-      this.defaultSelectedPeriod(this.props.current);
-    }
-
-    this.determineIsStepsDisable();
-
+      const componentPeriod = (this.props.start > this.state.selectedPeriod) ? this.props.current : this.state.selectedPeriod;
+  
     return (
       <div className="appStageDate__box">
         <NavigationPanel
-          period={this.state.selectedPeriod}
+          period={componentPeriod}
           buttonClick={this.handleButtonClick.bind(this)}
-          isDisableNext={this.state.isDisableNext}
-          isDisablePrev={this.state.isDisablePrev}
+          isDisableNext={this.determineIsStepsDisable('next', componentPeriod)}
+          isDisablePrev={this.determineIsStepsDisable('prev', componentPeriod)}
         />
 
         <MonthlyCalendar
-          period={this.state.selectedPeriod}
+          period={componentPeriod}
           chosen={this.props.current}
           dateClick={this.handleDateClick.bind(this)}
-          userDay={this.determineIsItHasUserDay()}
+          userDay={this.determineIsItHasUserDay(componentPeriod)}
         />
       </div>
     );
@@ -57,25 +51,23 @@ class AppStageDate extends PureComponent {
     }));
   };
 
-  determineIsStepsDisable = () => {
-    let currentPoint = new Date(this.state.selectedPeriod);
+  determineIsStepsDisable = (step, period) => {
+    let currentPoint = new Date(period);
     let startPoint = new Date(this.props.start);
     let endPoint = new Date(this.props.end);
 
-    this.setState({
-      isDisablePrev:
-        currentPoint.getMonth() === startPoint.getMonth() &&
-        currentPoint.getFullYear() === startPoint.getFullYear()
-    });
-    this.setState({
-      isDisableNext:
-        currentPoint.getMonth() === endPoint.getMonth() &&
-        currentPoint.getFullYear() === endPoint.getFullYear()
-    });
+    if(step==="prev"){
+       return (currentPoint.getMonth() === startPoint.getMonth() &&
+        currentPoint.getFullYear() === startPoint.getFullYear())
+    }
+   if(step==="next"){
+      return (currentPoint.getMonth() === endPoint.getMonth() &&
+        currentPoint.getFullYear() === endPoint.getFullYear())
+   }
   };
 
-  determineIsItHasUserDay() {
-    let date1 = new Date(this.state.selectedPeriod);
+  determineIsItHasUserDay(period) {
+    let date1 = new Date(period);
     let date2 = new Date(this.props.current);
     if (
       date1.getFullYear() === date2.getFullYear() &&
@@ -86,8 +78,21 @@ class AppStageDate extends PureComponent {
     return null;
   }
 
+  changeState=()=>{
+    
+    if(this.props.start > this.state.selectedPeriod){
+      this.defaultSelectedPeriod(this.props.current)
+      this.setState(() => ({
+       selectedDate: this.props.current
+     }));
+     return this.props.current
+    }
+    return this.state.selectedPeriod
+  }
+
   handleButtonClick = event => {
     let step = event.target.id === "next" ? 1 : -1;
+    this.changeState();
     let startMonth = this.state.selectedPeriod.getMonth();
     let newState = new Date(this.state.selectedPeriod);
 
@@ -99,6 +104,7 @@ class AppStageDate extends PureComponent {
   };
 
   handleDateClick = day => {
+    this.changeState();
     let newDay = new Date(this.state.selectedPeriod);
     newDay.setDate(day);
 

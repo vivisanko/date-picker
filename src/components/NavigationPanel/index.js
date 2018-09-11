@@ -30,8 +30,6 @@ class NavigationPanel extends PureComponent {
   render() {
     const { period, buttonClick, isDisableNext, isDisablePrev } = this.props;
 
-    // const body = this.state.isOpen && <section>{article.text}</section>
-
     return (
       <div className="navigationPanel__selectPeriod">
         <button
