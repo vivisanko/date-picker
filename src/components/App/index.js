@@ -9,11 +9,13 @@ class App extends PureComponent {
 
     this.state = {
       start: new Date(),
-      maxIntervalInMonth: 36,
-      defaultIntervalInMonth: 3,
+      maxValueInMonth: 36,
+      defaultValueInMonth: 3,
       end: null,
       startingCurrent: null,
+      startingPeriod: null,
       endingCurrent: null,
+      endingPeriod: null,
       isMistake: false
     };
 
@@ -21,12 +23,18 @@ class App extends PureComponent {
   }
 
   componentWillMount() {
-    this.createEndPeriod("start", this.state.maxIntervalInMonth, "end");
+    this.createEndPeriod("start", this.state.maxValueInMonth, "end");
     this.createEndPeriod("start", 0, "startingCurrent");
     this.createEndPeriod(
       "start",
-      this.state.defaultIntervalInMonth,
+      this.state.defaultValueInMonth,
       "endingCurrent"
+    );
+    this.createEndPeriod("start", 0, "startingPeriod");
+    this.createEndPeriod(
+      "start",
+      this.state.defaultValueInMonth,
+      "endingPeriod"
     );
   }
 
@@ -50,9 +58,14 @@ class App extends PureComponent {
               start={this.state.start}
               end={this.state.end}
               current={this.state.startingCurrent}
-              changeCurrentInterval={this.changeCurrent.bind(
+              period={this.state.startingPeriod}
+              changeCurrentValue={this.changeCurrent.bind(
                 this,
                 "startingCurrent"
+              )}
+              changeCurrentPeriod={this.changePeriod.bind(
+                this,
+                "startingPeriod"
               )}
             />
           </div>
@@ -66,10 +79,12 @@ class App extends PureComponent {
               start={this.state.startingCurrent}
               end={this.state.end}
               current={this.state.endingCurrent}
-              changeCurrentInterval={this.changeCurrent.bind(
+              period={this.state.endingPeriod}
+              changeCurrentValue={this.changeCurrent.bind(
                 this,
                 "endingCurrent"
               )}
+              changeCurrentPeriod={this.changePeriod.bind(this, "endingPeriod")}
             />
           </div>
         </div>
@@ -77,10 +92,11 @@ class App extends PureComponent {
       </div>
     );
   }
-  createEndPeriod = (start, interval, change) => {
+
+  createEndPeriod = (start, Value, change) => {
     const startMonth = this.state[start].getMonth();
     let newState = new Date(this.state[start]);
-    newState.setMonth(startMonth + interval);
+    newState.setMonth(startMonth + Value);
 
     this.setState({
       [change]: newState
@@ -104,9 +120,19 @@ class App extends PureComponent {
 
     if (key === "startingCurrent" && newDate > this.state.endingCurrent) {
       this.setState({
-        endingCurrent: newDate
+        endingCurrent: newDate,
+        endingPeriod: newDate
       });
     }
+  };
+
+  changePeriod = (key, step) => {
+    let startMonth = this.state[key].getMonth();
+    let newState = new Date(this.state[key]);
+    newState.setMonth(startMonth + step);
+    this.setState(() => ({
+      [key]: newState
+    }));
   };
 
   createDateString = date => {
