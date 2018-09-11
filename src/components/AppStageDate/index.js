@@ -17,21 +17,19 @@ class AppStageDate extends PureComponent {
   }
 
   componentWillMount() {
-    this.defaultSelectedDate();
-    this.defaultSelectedPeriod();
+    this.defaultSelectedPeriod(this.props.current);
   }
 
   componentDidMount() {
     this.determineIsStepsDisable(this.state, this.props);
   }
 
-  // shouldComponentUpdate(nextProps, nextState){
-  //   this.determineIsStepsDisable();
-  // }
-
   render() {
-    // const { start, end, current } = this.props;
-    this.props.changeCurrentInterval(this.state.selectedDate);
+  
+    if (this.state.start < this.state.selectedPeriod) {
+      this.defaultSelectedPeriod(this.props.current);
+    }
+
     this.determineIsStepsDisable();
 
     return (
@@ -45,29 +43,21 @@ class AppStageDate extends PureComponent {
 
         <MonthlyCalendar
           period={this.state.selectedPeriod}
-          chosen={this.state.selectedDate}
+          chosen={this.props.current}
           dateClick={this.handleDateClick.bind(this)}
-          userDay = {this.determineIsItHasUserDay()}
+          userDay={this.determineIsItHasUserDay()}
         />
       </div>
     );
   }
 
-  defaultSelectedPeriod = () => {
-    this.setState({
-      selectedPeriod: new Date(this.props.current)
-    });
-  };
-
-  defaultSelectedDate = () => {
-    this.setState({
-      selectedDate: this.props.current
-    });
+  defaultSelectedPeriod = newPeriod => {
+    this.setState(() => ({
+      selectedPeriod: new Date(newPeriod)
+    }));
   };
 
   determineIsStepsDisable = () => {
-    console.log("isStepDisable", this.state);
-
     let currentPoint = new Date(this.state.selectedPeriod);
     let startPoint = new Date(this.props.start);
     let endPoint = new Date(this.props.end);
@@ -84,49 +74,43 @@ class AppStageDate extends PureComponent {
     });
   };
 
-  determineIsItHasUserDay(){
+  determineIsItHasUserDay() {
     let date1 = new Date(this.state.selectedPeriod);
-    let date2 = new Date(this.state.selectedDate);
-    if(date1.getFullYear() === date2.getFullYear() && date1.getMonth()===date2.getMonth()){
-      return date2.getDate()
+    let date2 = new Date(this.props.current);
+    if (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth()
+    ) {
+      return date2.getDate();
     }
-    return null
+    return null;
   }
 
   handleButtonClick = event => {
-    console.log("click");
-
-    console.log("id", event.target.id);
-
     let step = event.target.id === "next" ? 1 : -1;
     let startMonth = this.state.selectedPeriod.getMonth();
     let newState = new Date(this.state.selectedPeriod);
 
     newState.setMonth(startMonth + step);
-     console.log('newState',newState);
-     
-    this.setState(()=>({
+
+    this.setState(() => ({
       selectedPeriod: newState
     }));
   };
 
   handleDateClick = day => {
-    console.log("click day", day);
-
     let newDay = new Date(this.state.selectedPeriod);
     newDay.setDate(day);
+
     let from = new Date(this.props.start);
     from.setDate(from.getDate() - 1);
     let to = new Date(this.props.end);
     to.setDate(to.getDate() + 1);
     if (newDay > from && newDay < to) {
-      console.log("меняем state", newDay, this.props.start);
-      this.setState({
-        selectedDate: newDay
-      });
+      this.props.changeCurrentInterval(newDay);
+      return;
     }
-
-    // }
+    this.props.changeCurrentInterval(null);
   };
 }
 

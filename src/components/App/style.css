@@ -22,3 +22,10 @@ font-size: 1.2rem;
   flex-basis: 320px;
   padding: 0 10px;
 }
+
+.app__mistakeMessage {
+font-size: 1.2rem;
+color: lightcoral;
+text-align: center;
+margin: 20px 10px;
+}

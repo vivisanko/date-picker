@@ -15,13 +15,9 @@ class MonthlyCalendar extends PureComponent {
         "Saturday",
         "Sunday"
       ],
-      monthDays: [],
-      // userDate: null,
-      // userDay: null
+      monthDays: []
     };
 
-    // this.determineNumberDaysInMonth = this.determineNumberDaysInMonth.bind(this);
-    // this.determineStartWeekDay = this.determineStartWeekDay.bind(this);
     this.createMonthDays = this.createMonthDays.bind(this);
   }
 
@@ -64,9 +60,9 @@ class MonthlyCalendar extends PureComponent {
     );
   }
 
-  determineNumberDaysInMonth = (props={}) => {
-    if(!props.period){
-      return
+  determineNumberDaysInMonth = (props = {}) => {
+    if (!props.period) {
+      return;
     }
     const month = props.period.getMonth();
     if (month === 3 || month === 5 || month === 8 || month === 10) {
@@ -81,26 +77,23 @@ class MonthlyCalendar extends PureComponent {
     return 31;
   };
 
-  determineStartWeekDay = (props={}) => {
-    if(!props.period){
-      return
+  determineStartWeekDay = (props = {}) => {
+    if (!props.period) {
+      return;
     }
     let startDay = new Date(props.period);
     startDay.setDate(1);
-    console.log("startDay", startDay);
-   let weekDay = startDay.getDay()
-   
-    return weekDay === 0 ? 6 : (weekDay - 1);
+    let weekDay = startDay.getDay();
+
+    return weekDay === 0 ? 6 : weekDay - 1;
   };
 
-  createMonthDays = (props) => {
+  createMonthDays = props => {
     let currentMonth = [];
     let day = 1;
     const numberDaysInMonth = this.determineNumberDaysInMonth(props);
-    console.log("numberDaysInMonth", numberDaysInMonth);
 
-    let startInd = this.determineStartWeekDay(props); 
-    console.log("startInd", startInd);
+    let startInd = this.determineStartWeekDay(props);
     while (currentMonth.length < startInd) {
       currentMonth.push("");
     }
@@ -113,11 +106,7 @@ class MonthlyCalendar extends PureComponent {
       currentMonth.push("");
     }
 
-    console.log("currentMonth__________________", currentMonth);
-    console.log("this.state", this.state);
-    console.log("this.props", this.props);
-
-    this.setState(()=>({
+    this.setState(() => ({
       monthDays: currentMonth
     }));
   };
@@ -126,7 +115,6 @@ class MonthlyCalendar extends PureComponent {
     if (this.state.monthDays[ind] !== "") {
       let chosen = new Date(this.props.period);
       chosen.setDate(this.state.monthDays[ind]);
-      console.log("chosen", chosen);
       this.props.dateClick(this.state.monthDays[ind]);
 
       this.setState({

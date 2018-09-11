@@ -13,7 +13,8 @@ class App extends PureComponent {
       defaultIntervalInMonth: 3,
       end: null,
       startingCurrent: null,
-      endingCurrent: null
+      endingCurrent: null,
+      isMistake: false
     };
 
     this.createEndPeriod = this.createEndPeriod.bind(this);
@@ -30,11 +31,20 @@ class App extends PureComponent {
   }
 
   render() {
+    const mistakeBody = this.state.isMistake && (
+      <div>
+        Starting can't be later than ending and the starting can't be earlier
+        than now
+      </div>
+    );
     return (
       <div className="app">
         <div className="app__dateBox">
           <div className="app__boxElement">
-            <h1><span className="app__dateTitle">Starting  </span>{this.createDateString(this.state.startingCurrent)}</h1>
+            <h1>
+              <span className="app__dateTitle">Starting </span>
+              {this.createDateString(this.state.startingCurrent)}
+            </h1>
             <AppStageDate
               key="starting"
               start={this.state.start}
@@ -47,7 +57,10 @@ class App extends PureComponent {
             />
           </div>
           <div className="app__boxElement">
-            <h1><span className="app__dateTitle">Ending  </span>{this.createDateString(this.state.endingCurrent)}</h1>
+            <h1>
+              <span className="app__dateTitle">Ending </span>
+              {this.createDateString(this.state.endingCurrent)}
+            </h1>
             <AppStageDate
               key="ending"
               start={this.state.startingCurrent}
@@ -60,11 +73,12 @@ class App extends PureComponent {
             />
           </div>
         </div>
+        <div className="app__mistakeMessage">{mistakeBody}</div>
       </div>
     );
   }
   createEndPeriod = (start, interval, change) => {
-    let startMonth = this.state[start].getMonth();
+    const startMonth = this.state[start].getMonth();
     let newState = new Date(this.state[start]);
     newState.setMonth(startMonth + interval);
 
@@ -74,15 +88,28 @@ class App extends PureComponent {
   };
 
   changeCurrent = (key, newDate) => {
-    console.log("newDate", newDate);
-    console.log("key", key);
+    if (newDate === null) {
+      this.setState(() => ({
+        isMistake: true
+      }));
+      return;
+    }
+    this.setState(() => ({
+      isMistake: false
+    }));
 
-    // this.setState(()=>({
-    //   [key]: new Date(newDate)
-    // }))
+    this.setState(() => ({
+      [key]: new Date(newDate)
+    }));
+
+    if (key === "startingCurrent" && newDate > this.state.endingCurrent) {
+      this.setState({
+        endingCurrent: newDate
+      });
+    }
   };
 
-  createDateString = (date) => {
+  createDateString = date => {
     const months = [
       "January",
       "February",
@@ -98,9 +125,9 @@ class App extends PureComponent {
       "December"
     ];
     const day = date.getDate();
-    const mon=months[date.getMonth()];
-    const year= date.getFullYear();
-  return `${day} ${mon} ${year}`
+    const mon = months[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day} ${mon} ${year}`;
   };
 }
 

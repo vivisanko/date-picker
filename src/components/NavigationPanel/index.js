@@ -27,8 +27,6 @@ class NavigationPanel extends PureComponent {
 
   componentDidMount() {}
 
-  
-
   render() {
     const { period, buttonClick, isDisableNext, isDisablePrev } = this.props;
 
