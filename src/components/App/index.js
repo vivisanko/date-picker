@@ -15,7 +15,7 @@ class App extends PureComponent {
       startingCurrent: null,
       startingPeriod: null,
       endingCurrent: null,
-      endingPeriod: null,
+      endingPeriod: null
     };
 
     this.createEndPeriod = this.createEndPeriod.bind(this);
@@ -85,10 +85,10 @@ class App extends PureComponent {
     );
   }
 
-  createEndPeriod = (start, Value, change) => {
+  createEndPeriod = (start, monthValue, change) => {
     const startMonth = this.state[start].getMonth();
     let newState = new Date(this.state[start]);
-    newState.setMonth(startMonth + Value);
+    newState.setMonth(startMonth + monthValue);
 
     this.setState({
       [change]: newState
@@ -116,8 +116,6 @@ class App extends PureComponent {
       [key]: newState
     }));
   };
-
-  
 }
 
 export default App;
