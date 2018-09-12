@@ -16,7 +16,6 @@ class App extends PureComponent {
       startingPeriod: null,
       endingCurrent: null,
       endingPeriod: null,
-      isMistake: false
     };
 
     this.createEndPeriod = this.createEndPeriod.bind(this);
@@ -39,12 +38,6 @@ class App extends PureComponent {
   }
 
   render() {
-    const mistakeBody = this.state.isMistake && (
-      <div>
-        Starting can't be later than ending and the starting can't be earlier
-        than now
-      </div>
-    );
     return (
       <div className="app">
         <div className="app__dateBox">
@@ -88,7 +81,6 @@ class App extends PureComponent {
             />
           </div>
         </div>
-        <div className="app__mistakeMessage">{mistakeBody}</div>
       </div>
     );
   }
@@ -104,16 +96,6 @@ class App extends PureComponent {
   };
 
   changeCurrent = (key, newDate) => {
-    if (newDate === null) {
-      this.setState(() => ({
-        isMistake: true
-      }));
-      return;
-    }
-    this.setState(() => ({
-      isMistake: false
-    }));
-
     this.setState(() => ({
       [key]: new Date(newDate)
     }));

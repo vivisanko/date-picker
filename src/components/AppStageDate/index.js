@@ -13,10 +13,6 @@ class AppStageDate extends PureComponent {
     };
   }
 
-  // componentDidMount() {
-  //   this.determineIsStepsDisable(this.state, this.props);
-  // }
-
   render() {
     return (
       <div className="appStageDate__box">
@@ -32,6 +28,7 @@ class AppStageDate extends PureComponent {
           chosen={this.props.current}
           dateClick={this.handleDateClick.bind(this)}
           userDay={this.determineIsItHasUserDay()}
+          disableDates={this.findDisabledDates()}
         />
       </div>
     );
@@ -85,7 +82,27 @@ class AppStageDate extends PureComponent {
       this.props.changeCurrentValue(newDay);
       return;
     }
-    this.props.changeCurrentValue(null);
+  };
+
+  findDisabledDates = () => {
+    let disableDates = [];
+    if (
+      this.props.start.getFullYear() === this.props.period.getFullYear() &&
+      this.props.start.getMonth() === this.props.period.getMonth()
+    ) {
+      for (let i = 1; i < this.props.start.getDate(); i++) {
+        disableDates.push(i);
+      }
+    }
+    if (
+      this.props.end.getFullYear() === this.props.period.getFullYear() &&
+      this.props.end.getMonth() === this.props.period.getMonth()
+    ) {
+      for (let i = this.props.end.getDate() + 1; i < 32; i++) {
+        disableDates.push(i);
+      }
+    }
+    return disableDates;
   };
 }
 

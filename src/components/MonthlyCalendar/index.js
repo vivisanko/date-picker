@@ -42,7 +42,8 @@ class MonthlyCalendar extends PureComponent {
           day !== ""
             ? "monthlyCalendar__weekDays monthlyCalendar__weekDays_withDate"
             : "monthlyCalendar__weekDays",
-          day === this.props.userDay ? "monthlyCalendar__selectedDate" : ""
+          day === this.props.userDay ? "monthlyCalendar__selectedDate" : "",
+          this.props.disableDates.includes(day) ? "monthlyCalendar__disableDate" : ""
         ].join(" ")}
         onClick={this.handleClick.bind(this, index)}
       >
