@@ -3,9 +3,12 @@
 color: darkgray;
 }
 
-.app__dateTitle{
+.app__title{
 font-size: 1.2rem;
 }
+.app__dateTitle{
+  font-size: 1.8rem;
+  }
 
 .app__dateBox {
   margin: auto;

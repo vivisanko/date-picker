@@ -42,8 +42,8 @@ class App extends PureComponent {
       <div className="app">
         <div className="app__dateBox">
           <div className="app__boxElement">
-            <h1>
-              <span className="app__dateTitle">Starting </span>
+            <h1 className="app__dateTitle">
+              <span className="app__title">Starting </span>
               {Helpers.createDateString(this.state.startingCurrent)}
             </h1>
             <AppStageDate
@@ -63,8 +63,8 @@ class App extends PureComponent {
             />
           </div>
           <div className="app__boxElement">
-            <h1>
-              <span className="app__dateTitle">Ending </span>
+            <h1 className="app__dateTitle">
+              <span className="app__title">Ending </span>
               {Helpers.createDateString(this.state.endingCurrent)}
             </h1>
             <AppStageDate
