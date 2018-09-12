@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import NavigationPanel from "../NavigationPanel";
 import MonthlyCalendar from "../MonthlyCalendar";
+import Helpers from "../../helpers";
 import "./style.css";
 
 class AppStageDate extends PureComponent {
@@ -86,18 +87,12 @@ class AppStageDate extends PureComponent {
 
   findDisabledDates = () => {
     let disableDates = [];
-    if (
-      this.props.start.getFullYear() === this.props.period.getFullYear() &&
-      this.props.start.getMonth() === this.props.period.getMonth()
-    ) {
+    if (Helpers.checkFullCoincidenceDates(this.props.start, this.props.period, false)) {
       for (let i = 1; i < this.props.start.getDate(); i++) {
         disableDates.push(i);
       }
     }
-    if (
-      this.props.end.getFullYear() === this.props.period.getFullYear() &&
-      this.props.end.getMonth() === this.props.period.getMonth()
-    ) {
+    if (Helpers.checkFullCoincidenceDates(this.props.end, this.props.period, false)) {
       for (let i = this.props.end.getDate() + 1; i < 32; i++) {
         disableDates.push(i);
       }

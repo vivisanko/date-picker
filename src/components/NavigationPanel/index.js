@@ -1,26 +1,12 @@
 import React, { PureComponent } from "react";
+import Helpers from "../../helpers";
 import "./style.css";
 
 class NavigationPanel extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      months: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ]
-    };
+    this.state = {};
   }
 
   componentWillMount() {}
@@ -43,7 +29,7 @@ class NavigationPanel extends PureComponent {
           Prev
         </button>
         <div className="navigationPanel__periodInfo">
-          {this.state.months[period.getMonth()]} {period.getFullYear()}
+          {Helpers.createDateString(period, false)}
         </div>
         <button
           className="navigationPanel__changePeriod"
@@ -58,20 +44,6 @@ class NavigationPanel extends PureComponent {
       </div>
     );
   }
-
-  defaultSelectedPeriod = () => {
-    this.setState({
-      selectedPeriod: `${
-        this.state.months[new Date(this.props.current).getMonth()]
-      } ${new Date(this.props.current).getFullYear()}`
-    });
-  };
-
-  defaultSelectedDate = () => {
-    this.setState({
-      selectedDate: this.props.current
-    });
-  };
 }
 
 export default NavigationPanel;

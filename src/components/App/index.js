@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import AppStageDate from "../AppStageDate";
-
+import Helpers from "../../helpers";
 import "./style.css";
 
 class App extends PureComponent {
@@ -44,7 +44,7 @@ class App extends PureComponent {
           <div className="app__boxElement">
             <h1>
               <span className="app__dateTitle">Starting </span>
-              {this.createDateString(this.state.startingCurrent)}
+              {Helpers.createDateString(this.state.startingCurrent)}
             </h1>
             <AppStageDate
               key="starting"
@@ -65,7 +65,7 @@ class App extends PureComponent {
           <div className="app__boxElement">
             <h1>
               <span className="app__dateTitle">Ending </span>
-              {this.createDateString(this.state.endingCurrent)}
+              {Helpers.createDateString(this.state.endingCurrent)}
             </h1>
             <AppStageDate
               key="ending"
@@ -117,26 +117,7 @@ class App extends PureComponent {
     }));
   };
 
-  createDateString = date => {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ];
-    const day = date.getDate();
-    const mon = months[date.getMonth()];
-    const year = date.getFullYear();
-    return `${day} ${mon} ${year}`;
-  };
+  
 }
 
 export default App;
