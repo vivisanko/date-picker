@@ -36,34 +36,16 @@ class AppStageDate extends PureComponent {
   }
 
   determineIsStepsDisable = step => {
-    let currentPoint = new Date(this.props.period);
-    let startPoint = new Date(this.props.start);
-    let endPoint = new Date(this.props.end);
-
     if (step === "prev") {
-      return (
-        currentPoint.getMonth() === startPoint.getMonth() &&
-        currentPoint.getFullYear() === startPoint.getFullYear()
-      );
+      return Helpers.checkFullCoincidenceDates(this.props.period,this.props.start, false)
     }
     if (step === "next") {
-      return (
-        currentPoint.getMonth() === endPoint.getMonth() &&
-        currentPoint.getFullYear() === endPoint.getFullYear()
-      );
+      return Helpers.checkFullCoincidenceDates(this.props.period,this.props.end, false)
     }
   };
 
   determineIsItHasUserDay() {
-    let date1 = new Date(this.props.period);
-    let date2 = new Date(this.props.current);
-    if (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth()
-    ) {
-      return date2.getDate();
-    }
-    return null;
+      return Helpers.checkFullCoincidenceDates(this.props.period, this.props.current, false) ? this.props.current.getDate(): null
   }
 
   handleButtonClick = event => {
@@ -74,15 +56,10 @@ class AppStageDate extends PureComponent {
   handleDateClick = day => {
     let newDay = new Date(this.props.period);
     newDay.setDate(day);
-
-    let from = new Date(this.props.start);
-    from.setDate(from.getDate() - 1);
-    let to = new Date(this.props.end);
-    to.setDate(to.getDate() + 1);
-    if (newDay > from && newDay < to) {
+    if (Helpers.determineIsDateInInterval(this.props.start,newDay,this.props.end)) {
       this.props.changeCurrentValue(newDay);
-      return;
     }
+    return;
   };
 
   findDisabledDates = () => {
