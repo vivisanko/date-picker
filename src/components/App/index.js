@@ -1,7 +1,7 @@
-import React, { PureComponent } from "react";
-import AppStageDate from "../AppStageDate";
-import Helpers from "../../helpers";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import AppStageDate from '../AppStageDate';
+import Helpers from '../../helpers';
+import './style.css';
 
 class App extends PureComponent {
   constructor(props) {
@@ -22,18 +22,18 @@ class App extends PureComponent {
   }
 
   componentWillMount() {
-    this.createEndPeriod("start", this.state.maxValueInMonth, "end");
-    this.createEndPeriod("start", 0, "startingCurrent");
+    this.createEndPeriod('start', this.state.maxValueInMonth, 'end');
+    this.createEndPeriod('start', 0, 'startingCurrent');
     this.createEndPeriod(
-      "start",
+      'start',
       this.state.defaultValueInMonth,
-      "endingCurrent"
+      'endingCurrent'
     );
-    this.createEndPeriod("start", 0, "startingPeriod");
+    this.createEndPeriod('start', 0, 'startingPeriod');
     this.createEndPeriod(
-      "start",
+      'start',
       this.state.defaultValueInMonth,
-      "endingPeriod"
+      'endingPeriod'
     );
   }
 
