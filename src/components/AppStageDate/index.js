@@ -65,7 +65,7 @@ class AppStageDate extends PureComponent {
   }
 
   render() {
-    const { period, current } = this.props;
+    const { period } = this.props;
     return (
       <div className="appStageDate__box">
         <NavigationPanel
@@ -77,7 +77,6 @@ class AppStageDate extends PureComponent {
 
         <MonthlyCalendar
           period={period}
-          chosen={current}
           dateClick={this.handleDateClick}
           userDay={this.determineIsItHasUserDay()}
           disableDates={this.findDisabledDates()}

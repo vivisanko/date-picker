@@ -23,9 +23,8 @@ class MonthlyCalendar extends PureComponent {
   showWeekDaysName= () => {
     const [weekDays] = Helpers.weekDays;
     weekDays.map((day) => {
-      const elem = <div key={day.toString()} className="monthlyCalendar__weekDays">{day.slice(0, 3)}</div>;
-      console.log('elem', elem);
-      return (elem);
+      const elem = (<div key={day.toString()} className="monthlyCalendar__weekDays">{day.slice(0, 3)}</div>);
+      return elem;
     });
   }
 
@@ -69,11 +68,15 @@ class MonthlyCalendar extends PureComponent {
 
 MonthlyCalendar.propTypes = {
   period: PropTypes.instanceOf(Date).isRequired,
-  chosen: PropTypes.instanceOf(Date).isRequired,
   userDay: PropTypes.number,
   dateClick: PropTypes.func.isRequired,
-  disableDates: PropTypes.array.isRequired,
+  disableDates: PropTypes.arrayOf(PropTypes.number),
 
+};
+
+MonthlyCalendar.defaultProps = {
+  userDay: null,
+  disableDates: [],
 };
 
 export default MonthlyCalendar;
