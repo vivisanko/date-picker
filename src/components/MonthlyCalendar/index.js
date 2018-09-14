@@ -1,68 +1,79 @@
-import React, { PureComponent } from "react";
-import Helpers from "../../helpers";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import Helpers from '../../helpers';
+import './style.css';
 
 class MonthlyCalendar extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      weekDays: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-      ]
-    };
+    this.state = {};
   }
 
+  handleClick = (ind) => {
+    const { period, dateClick } = this.props;
+    const monthDays = Helpers.createMonthDays({ period });
+    if (monthDays[ind] !== '') {
+      const chosen = new Date(period);
+      chosen.setDate(monthDays[ind]);
+      dateClick(monthDays[ind]);
+    }
+  };
+
+  showWeekDaysName= () => {
+    const [weekDays] = Helpers.weekDays;
+    weekDays.map((day) => {
+      const elem = <div key={day.toString()} className="monthlyCalendar__weekDays">{day.slice(0, 3)}</div>;
+      console.log('elem', elem);
+      return (elem);
+    });
+  }
+
+
   render() {
-    const weekDaysName = this.state.weekDays.map((day, index) => (
-      <div key={index} className="monthlyCalendar__weekDays">
-        {day.slice(0, 3)}
-      </div>
-    ));
-    const days = Helpers.createMonthDays(this.props.period).map(
+    const { period, userDay, disableDates } = this.props;
+
+    const days = Helpers.createMonthDays(period).map(
       (day, index) => (
         <div
-          key={index}
+          key={`${day}`}
           className={[
-            day !== ""
-              ? "monthlyCalendar__weekDays monthlyCalendar__weekDays_withDate"
-              : "monthlyCalendar__weekDays",
-            day === this.props.userDay ? "monthlyCalendar__selectedDate" : "",
-            this.props.disableDates.includes(day)
-              ? "monthlyCalendar__disableDate"
-              : ""
-          ].join(" ")}
-          onClick={this.handleClick.bind(this, index)}
+            day !== ''
+              ? 'monthlyCalendar__weekDays monthlyCalendar__weekDays_withDate'
+              : 'monthlyCalendar__weekDays',
+            day === userDay ? 'monthlyCalendar__selectedDate' : '',
+            disableDates.includes(day)
+              ? 'monthlyCalendar__disableDate'
+              : '',
+          ].join('')}
+          onClick={() => { this.handleClick.bind(this, index); }}
+          onKeyUp={() => { this.handleClick.bind(this, index); }}
+          role="button"
+          tabIndex={day === userDay ? '0' : '-1'}
         >
           {day}
         </div>
-      )
+      ),
     );
 
     return (
       <div className="monthlyCalendar__monthBlock">
         <div className="monthlyCalendar__weekBox monthlyCalendar__weekNamesBox">
-          {weekDaysName}
+          {this.showWeekDaysName }
         </div>
         <div className="monthlyCalendar__weekBox">{days}</div>
       </div>
     );
   }
-
-  handleClick = ind => {
-    let monthDays = Helpers.createMonthDays(this.props.period);
-    if (monthDays[ind] !== "") {
-      let chosen = new Date(this.props.period);
-      chosen.setDate(monthDays[ind]);
-      this.props.dateClick(monthDays[ind]);
-    }
-  };
 }
+
+MonthlyCalendar.propTypes = {
+  period: PropTypes.instanceOf(Date).isRequired,
+  chosen: PropTypes.instanceOf(Date).isRequired,
+  userDay: PropTypes.number,
+  dateClick: PropTypes.func.isRequired,
+  disableDates: PropTypes.array.isRequired,
+
+};
 
 export default MonthlyCalendar;

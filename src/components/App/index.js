@@ -15,107 +15,107 @@ class App extends PureComponent {
       startingCurrent: null,
       startingPeriod: null,
       endingCurrent: null,
-      endingPeriod: null
+      endingPeriod: null,
     };
 
     this.createEndPeriod = this.createEndPeriod.bind(this);
   }
 
   componentWillMount() {
-    this.createEndPeriod('start', this.state.maxValueInMonth, 'end');
+    const { maxValueInMonth, defaultValueInMonth } = this.state;
+    this.createEndPeriod('start', maxValueInMonth, 'end');
     this.createEndPeriod('start', 0, 'startingCurrent');
     this.createEndPeriod(
       'start',
-      this.state.defaultValueInMonth,
-      'endingCurrent'
+      defaultValueInMonth,
+      'endingCurrent',
     );
     this.createEndPeriod('start', 0, 'startingPeriod');
     this.createEndPeriod(
       'start',
-      this.state.defaultValueInMonth,
-      'endingPeriod'
+      defaultValueInMonth,
+      'endingPeriod',
     );
   }
 
+  changePeriod = (key, step) => {
+    const { that } = this.state;
+    const startMonth = that[key].getMonth();
+    const newState = new Date(key);
+    newState.setMonth(startMonth + step);
+    this.setState(() => ({ [key]: newState }));
+  };
+
+  changeCurrent = (key, newDate) => {
+    const { endingCurrent } = this.state;
+    this.setState(() => ({ [key]: new Date(newDate) }));
+
+    if (key === 'startingCurrent' && newDate > endingCurrent) {
+      this.setState({
+        endingCurrent: newDate,
+        endingPeriod: newDate,
+      });
+    }
+  };
+
+  createEndPeriod = (start, monthValue, change) => {
+    const { that } = this.state;
+    const startMonth = that[start].getMonth();
+    const newState = new Date(that[start]);
+    newState.setMonth(startMonth + monthValue);
+
+    this.setState({ [change]: newState });
+  };
+
+
   render() {
+    const { startingCurrent, start, end, startingPeriod, endingCurrent, endingPeriod } = this.state;
     return (
       <div className="app">
         <div className="app__dateBox">
           <div className="app__boxElement">
             <h1 className="app__dateTitle">
               <span className="app__title">Starting </span>
-              {Helpers.createDateString(this.state.startingCurrent)}
+              {Helpers.createDateString(startingCurrent)}
             </h1>
             <AppStageDate
               key="starting"
-              start={this.state.start}
-              end={this.state.end}
-              current={this.state.startingCurrent}
-              period={this.state.startingPeriod}
+              start={start}
+              end={end}
+              current={startingCurrent}
+              period={startingPeriod}
               changeCurrentValue={this.changeCurrent.bind(
                 this,
-                "startingCurrent"
+                'startingCurrent',
               )}
               changeCurrentPeriod={this.changePeriod.bind(
                 this,
-                "startingPeriod"
+                'startingPeriod',
               )}
             />
           </div>
           <div className="app__boxElement">
             <h1 className="app__dateTitle">
               <span className="app__title">Ending </span>
-              {Helpers.createDateString(this.state.endingCurrent)}
+              {Helpers.createDateString(endingCurrent)}
             </h1>
             <AppStageDate
               key="ending"
-              start={this.state.startingCurrent}
-              end={this.state.end}
-              current={this.state.endingCurrent}
-              period={this.state.endingPeriod}
+              start={startingCurrent}
+              end={end}
+              current={endingCurrent}
+              period={endingPeriod}
               changeCurrentValue={this.changeCurrent.bind(
                 this,
-                "endingCurrent"
+                'endingCurrent',
               )}
-              changeCurrentPeriod={this.changePeriod.bind(this, "endingPeriod")}
+              changeCurrentPeriod={this.changePeriod.bind(this, 'endingPeriod')}
             />
           </div>
         </div>
       </div>
     );
   }
-
-  createEndPeriod = (start, monthValue, change) => {
-    const startMonth = this.state[start].getMonth();
-    let newState = new Date(this.state[start]);
-    newState.setMonth(startMonth + monthValue);
-
-    this.setState({
-      [change]: newState
-    });
-  };
-
-  changeCurrent = (key, newDate) => {
-    this.setState(() => ({
-      [key]: new Date(newDate)
-    }));
-
-    if (key === "startingCurrent" && newDate > this.state.endingCurrent) {
-      this.setState({
-        endingCurrent: newDate,
-        endingPeriod: newDate
-      });
-    }
-  };
-
-  changePeriod = (key, step) => {
-    let startMonth = this.state[key].getMonth();
-    let newState = new Date(this.state[key]);
-    newState.setMonth(startMonth + step);
-    this.setState(() => ({
-      [key]: newState
-    }));
-  };
 }
 
 export default App;

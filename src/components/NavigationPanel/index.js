@@ -16,37 +16,40 @@ class NavigationPanel extends PureComponent {
       period, buttonClick, isDisableNext, isDisablePrev,
     } = this.props;
 
-    return (<div className="navigationPanel__selectPeriod">
-      <button
-        type="button"
-        className="navigationPanel__changePeriod"
-        id="previous"
-        onClick={
+    return (
+      <div className="navigationPanel__selectPeriod">
+        <button
+          type="button"
+          className="navigationPanel__changePeriod"
+          id="previous"
+          onClick={
+            buttonClick
+          }
+          disabled={
+            isDisablePrev
+          }
+          style={isDisablePrev ? { cursor: 'no-drop' } : { cursor: 'pointer' }}
+        >
+          Prev
+        </button>
+        <div className="navigationPanel__periodInfo">
+          { Helpers.createDateString(period, false) }
+        </div>
+        <button
+          type="button"
+          className="navigationPanel__changePeriod"
+          id="next"
+          onClick={
           buttonClick
-        }
-        disabled={
-          isDisablePrev
-        }
-        style={isDisablePrev ? { cursor: 'no-drop' } : { cursor: 'pointer' }}>
-        Prev
-      </button>
-      <div className="navigationPanel__periodInfo">
-        { Helpers.createDateString(period, false) }
+          }
+          disabled={
+            isDisableNext
+          }
+          style={isDisableNext ? { cursor: 'no-drop' } : { cursor: 'pointe' }}
+        >
+          Next
+        </button>
       </div>
-      <button
-        type="button"
-        className="navigationPanel__changePeriod"
-        id="next"
-        onClick={
-        buttonClick
-        }
-        disabled={
-          isDisableNext
-        }
-        style={isDisableNext ? { cursor: 'no-drop' } : { cursor: 'pointe' }}>
-        Next
-      </button>
-    </div>
     );
   }
 }

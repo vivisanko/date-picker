@@ -1,21 +1,9 @@
 module.exports = {
+  weekDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+  months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   createDateString(date, withDay = true) {
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
     const day = date.getDate();
-    const mon = months[date.getMonth()];
+    const mon = this.months[date.getMonth()];
     const year = date.getFullYear();
 
     return withDay ? `${day} ${mon} ${year}` : `${mon} ${year}`;
@@ -26,7 +14,7 @@ module.exports = {
     return fullCoincidence ? first.getDate() === second.getDate()
       && first.getMonth() === second.getMonth()
       && first.getFullYear() === second.getFullYear() : first.getFullYear() === second.getFullYear()
-      && first.getMonth() === second.getMonth()
+      && first.getMonth() === second.getMonth();
   },
   determineIsDateInInterval(start, date, end) {
     const from = new Date(start);
