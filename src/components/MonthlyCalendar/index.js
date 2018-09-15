@@ -11,8 +11,12 @@ class MonthlyCalendar extends PureComponent {
   }
 
   handleClick = (ind) => {
+    console.log('ind', ind);
     const { period, dateClick } = this.props;
-    const monthDays = Helpers.createMonthDays({ period });
+    const monthDays = Helpers.createMonthDays(period);
+    console.log('monthDays', monthDays);
+
+
     if (monthDays[ind] !== '') {
       const chosen = new Date(period);
       chosen.setDate(monthDays[ind]);
@@ -20,23 +24,16 @@ class MonthlyCalendar extends PureComponent {
     }
   };
 
-  showWeekDaysName= () => {
-    const [weekDays] = Helpers.weekDays;
-    weekDays.map((day) => {
-      const elem = <div key={day.toString()} className="monthlyCalendar__weekDays">{day.slice(0, 3)}</div>;
-      console.log('elem', elem);
-      return (elem);
-    });
-  }
-
 
   render() {
     const { period, userDay, disableDates } = this.props;
-
+    const weekArr = Helpers.weekDays.map(day => (
+      <div key={day} className="monthlyCalendar__weekDays">{day.slice(0, 3)}</div>
+    ));
     const days = Helpers.createMonthDays(period).map(
       (day, index) => (
         <div
-          key={`${day}`}
+          key={`${period.getMonth()}_${index.toString()}`}
           className={[
             day !== ''
               ? 'monthlyCalendar__weekDays monthlyCalendar__weekDays_withDate'
@@ -45,11 +42,11 @@ class MonthlyCalendar extends PureComponent {
             disableDates.includes(day)
               ? 'monthlyCalendar__disableDate'
               : '',
-          ].join('')}
-          onClick={() => { this.handleClick.bind(this, index); }}
-          onKeyUp={() => { this.handleClick.bind(this, index); }}
+          ].join(' ')}
+          onClick={() => { this.handleClick(index); }}
+          onKeyUp={() => { this.handleClick(index); }}
           role="button"
-          tabIndex={day === userDay ? '0' : '-1'}
+          tabIndex={day === userDay ? 0 : -1}
         >
           {day}
         </div>
@@ -58,8 +55,8 @@ class MonthlyCalendar extends PureComponent {
 
     return (
       <div className="monthlyCalendar__monthBlock">
-        <div className="monthlyCalendar__weekBox monthlyCalendar__weekNamesBox">
-          {this.showWeekDaysName }
+        <div className={['monthlyCalendar__weekBox', 'monthlyCalendar__weekNamesBox'].join(' ')}>
+          {weekArr }
         </div>
         <div className="monthlyCalendar__weekBox">{days}</div>
       </div>
