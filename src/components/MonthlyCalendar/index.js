@@ -20,15 +20,15 @@ class MonthlyCalendar extends PureComponent {
   };
 
   render() {
-    const weekDaysName = Helpers.weekDays.map((day, index) => (
-      <div key={index} className='monthlyCalendar__weekDays'>
+    const weekDaysName = Helpers.weekDays.map(day => (
+      <div key={day.toString()} className='monthlyCalendar__weekDays'>
         {day.slice(0, 3)}
       </div>
     ));
     const days = Helpers.createMonthDays(this.props.period).map(
       (day, index) => (
         <div
-          key={index}
+          key={`day_${index}`}
           className={[
             day !== ''
               ? 'monthlyCalendar__weekDays monthlyCalendar__weekDays_withDate'
