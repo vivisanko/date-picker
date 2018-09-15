@@ -19,8 +19,6 @@ class App extends PureComponent {
     };
 
     this.createEndPeriod = this.createEndPeriod.bind(this);
-    this.changeCurrent = this.changeCurrent.bind(this);
-    this.changePeriod = this.changePeriod.bind(this);
   }
 
   componentWillMount() {
@@ -41,35 +39,37 @@ class App extends PureComponent {
   }
 
   changePeriod = (key, step) => {
-    const that = this.state;
-    const startMonth = that[`${key}`].getMonth();
-    const newState = new Date(that[`${key}`]);
+    const { that } = this.state;
+    const startMonth = that[key].getMonth();
+    const newState = new Date(key);
     newState.setMonth(startMonth + step);
-    this.setState(() => ({ [`${key}`]: newState }));
+    this.setState(() => ({ [key]: newState }));
   };
 
   changeCurrent = (key, newDate) => {
-    const that = this.state;
-    return (key === 'startingCurrent' && newDate > that.endingCurrent) ? this.setState({
-      endingCurrent: newDate,
-      endingPeriod: newDate,
-      [`${key}`]: new Date(newDate),
-    }) : this.setState({ [`${key}`]: new Date(newDate) });
-  }
+    const { endingCurrent } = this.state;
+    this.setState(() => ({ [key]: new Date(newDate) }));
+
+    if (key === 'startingCurrent' && newDate > endingCurrent) {
+      this.setState({
+        endingCurrent: newDate,
+        endingPeriod: newDate,
+      });
+    }
+  };
 
   createEndPeriod = (start, monthValue, change) => {
-    const that = this.state;
-    const startMonth = that[`${start}`].getMonth();
-    const newState = new Date(that[`${start}`]);
+    const { that } = this.state;
+    const startMonth = that[start].getMonth();
+    const newState = new Date(that[start]);
     newState.setMonth(startMonth + monthValue);
+
     this.setState({ [change]: newState });
   };
 
 
   render() {
-    const {
-      startingCurrent, start, end, startingPeriod, endingCurrent, endingPeriod,
-    } = this.state;
+    const { startingCurrent, start, end, startingPeriod, endingCurrent, endingPeriod } = this.state;
     return (
       <div className="app">
         <div className="app__dateBox">
@@ -84,8 +84,14 @@ class App extends PureComponent {
               end={end}
               current={startingCurrent}
               period={startingPeriod}
-              changeCurrentValue={this.changeCurrent('startingCurrent')}
-              changeCurrentPeriod={this.changePeriod('startingPeriod')}
+              changeCurrentValue={this.changeCurrent.bind(
+                this,
+                'startingCurrent',
+              )}
+              changeCurrentPeriod={this.changePeriod.bind(
+                this,
+                'startingPeriod',
+              )}
             />
           </div>
           <div className="app__boxElement">
@@ -99,8 +105,11 @@ class App extends PureComponent {
               end={end}
               current={endingCurrent}
               period={endingPeriod}
-              changeCurrentValue={this.changeCurrent('endingCurrent')}
-              changeCurrentPeriod={this.changePeriod('endingPeriod')}
+              changeCurrentValue={this.changeCurrent.bind(
+                this,
+                'endingCurrent',
+              )}
+              changeCurrentPeriod={this.changePeriod.bind(this, 'endingPeriod')}
             />
           </div>
         </div>
