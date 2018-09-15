@@ -1,7 +1,7 @@
-import React, { PureComponent } from "react";
-import AppStageDate from "../AppStageDate";
-import Helpers from "../../helpers";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import AppStageDate from '../AppStageDate';
+import Helpers from '../../helpers';
+import './style.css';
 
 class App extends PureComponent {
   constructor(props) {
@@ -22,62 +22,62 @@ class App extends PureComponent {
   }
 
   componentWillMount() {
-    this.createEndPeriod("start", this.state.maxValueInMonth, "end");
-    this.createEndPeriod("start", 0, "startingCurrent");
+    this.createEndPeriod('start', this.state.maxValueInMonth, 'end');
+    this.createEndPeriod('start', 0, 'startingCurrent');
     this.createEndPeriod(
-      "start",
+      'start',
       this.state.defaultValueInMonth,
-      "endingCurrent"
+      'endingCurrent'
     );
-    this.createEndPeriod("start", 0, "startingPeriod");
+    this.createEndPeriod('start', 0, 'startingPeriod');
     this.createEndPeriod(
-      "start",
+      'start',
       this.state.defaultValueInMonth,
-      "endingPeriod"
+      'endingPeriod'
     );
   }
 
   render() {
     return (
-      <div className="app">
-        <div className="app__dateBox">
-          <div className="app__boxElement">
-            <h1 className="app__dateTitle">
-              <span className="app__title">Starting </span>
-              {Helpers.createDateString(this.state.startingCurrent)}
+      <div className='app'>
+        <div className='app__dateBox'>
+          <div className='app__boxElement'>
+            <h1 className='app__title'>
+              <span className='app__titleText'>Starting </span>
+              <span className='app__titleDate'>{Helpers.createDateString(this.state.startingCurrent)}</span>
             </h1>
             <AppStageDate
-              key="starting"
+              key='starting'
               start={this.state.start}
               end={this.state.end}
               current={this.state.startingCurrent}
               period={this.state.startingPeriod}
               changeCurrentValue={this.changeCurrent.bind(
                 this,
-                "startingCurrent"
+                'startingCurrent'
               )}
               changeCurrentPeriod={this.changePeriod.bind(
                 this,
-                "startingPeriod"
+                'startingPeriod'
               )}
             />
           </div>
-          <div className="app__boxElement">
-            <h1 className="app__dateTitle">
-              <span className="app__title">Ending </span>
-              {Helpers.createDateString(this.state.endingCurrent)}
+          <div className='app__boxElement'>
+            <h1 className='app__title'>
+              <span className='app__titleText'>Ending </span>
+              <span className='app__titleDate'>{Helpers.createDateString(this.state.endingCurrent)}</span>
             </h1>
             <AppStageDate
-              key="ending"
+              key='ending'
               start={this.state.startingCurrent}
               end={this.state.end}
               current={this.state.endingCurrent}
               period={this.state.endingPeriod}
               changeCurrentValue={this.changeCurrent.bind(
                 this,
-                "endingCurrent"
+                'endingCurrent'
               )}
-              changeCurrentPeriod={this.changePeriod.bind(this, "endingPeriod")}
+              changeCurrentPeriod={this.changePeriod.bind(this, 'endingPeriod')}
             />
           </div>
         </div>
@@ -100,7 +100,7 @@ class App extends PureComponent {
       [key]: new Date(newDate)
     }));
 
-    if (key === "startingCurrent" && newDate > this.state.endingCurrent) {
+    if (key === 'startingCurrent' && newDate > this.state.endingCurrent) {
       this.setState({
         endingCurrent: newDate,
         endingPeriod: newDate

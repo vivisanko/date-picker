@@ -1,21 +1,9 @@
 export default {
+  weekDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+  months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   createDateString: function(date, withDay = true) {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ];
     const day = date.getDate();
-    const mon = months[date.getMonth()];
+    const mon = this.months[date.getMonth()];
     const year = date.getFullYear();
 
     return withDay ? `${day} ${mon} ${year}` : `${mon} ${year}`;
@@ -40,14 +28,14 @@ export default {
 
     let startInd = this.determineStartWeekDay(date);
     while (currentMonth.length < startInd) {
-      currentMonth.push("");
+      currentMonth.push('');
     }
     for (let i = startInd; i < numberDaysInMonth + startInd; i++) {
       currentMonth[i] = day;
       day += 1;
     }
     while (currentMonth.length % 7 !== 0) {
-      currentMonth.push("");
+      currentMonth.push('');
     }
     return currentMonth
   },

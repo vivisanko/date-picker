@@ -1,45 +1,22 @@
-import React, { PureComponent } from "react";
-import NavigationPanel from "../NavigationPanel";
-import MonthlyCalendar from "../MonthlyCalendar";
-import Helpers from "../../helpers";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import NavigationPanel from '../NavigationPanel';
+import MonthlyCalendar from '../MonthlyCalendar';
+import Helpers from '../../helpers';
+import './style.css';
 
 class AppStageDate extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      selectedPeriod: null,
-      selectedDate: null
-    };
-  }
-
-  render() {
-    return (
-      <div className="appStageDate__box">
-        <NavigationPanel
-          period={this.props.period}
-          buttonClick={this.handleButtonClick.bind(this)}
-          isDisableNext={this.determineIsStepsDisable("next")}
-          isDisablePrev={this.determineIsStepsDisable("prev")}
-        />
-
-        <MonthlyCalendar
-          period={this.props.period}
-          chosen={this.props.current}
-          dateClick={this.handleDateClick.bind(this)}
-          userDay={this.determineIsItHasUserDay()}
-          disableDates={this.findDisabledDates()}
-        />
-      </div>
-    );
+    this.state = {};
   }
 
   determineIsStepsDisable = step => {
-    if (step === "prev") {
+    if (step === 'prev') {
       return Helpers.checkFullCoincidenceDates(this.props.period,this.props.start, false)
     }
-    if (step === "next") {
+    if (step === 'next') {
       return Helpers.checkFullCoincidenceDates(this.props.period,this.props.end, false)
     }
   };
@@ -49,7 +26,7 @@ class AppStageDate extends PureComponent {
   }
 
   handleButtonClick = event => {
-    let step = event.target.id === "next" ? 1 : -1;
+    let step = event.target.id === 'next' ? 1 : -1;
     this.props.changeCurrentPeriod(step);
   };
 
@@ -59,7 +36,6 @@ class AppStageDate extends PureComponent {
     if (Helpers.determineIsDateInInterval(this.props.start,newDay,this.props.end)) {
       this.props.changeCurrentValue(newDay);
     }
-    return;
   };
 
   findDisabledDates = () => {
@@ -76,6 +52,35 @@ class AppStageDate extends PureComponent {
     }
     return disableDates;
   };
+
+  render() {
+    return (
+      <div className='appStageDate__box'>
+        <NavigationPanel
+          period={this.props.period}
+          buttonClick={this.handleButtonClick.bind(this)}
+          isDisableNext={this.determineIsStepsDisable('next')}
+          isDisablePrev={this.determineIsStepsDisable('prev')}
+        />
+
+        <MonthlyCalendar
+          period={this.props.period}
+          dateClick={this.handleDateClick.bind(this)}
+          userDay={this.determineIsItHasUserDay()}
+          disableDates={this.findDisabledDates()}
+        />
+      </div>
+    );
+  }
 }
+
+AppStageDate.propTypes = {
+  start: PropTypes.instanceOf(Date).isRequired,
+  end: PropTypes.instanceOf(Date).isRequired,
+  current: PropTypes.instanceOf(Date).isRequired,
+  period: PropTypes.instanceOf(Date).isRequired,
+  changeCurrentValue: PropTypes.func.isRequired,
+  changeCurrentPeriod: PropTypes.func.isRequired,
+};
 
 export default AppStageDate;
