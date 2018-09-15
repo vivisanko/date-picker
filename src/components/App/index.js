@@ -17,6 +17,7 @@ class App extends PureComponent {
       endingCurrent: null,
       endingPeriod: null,
     };
+    this.NCalls = 0;
 
     this.createEndPeriod = this.createEndPeriod.bind(this);
     this.changeCurrent = this.changeCurrent.bind(this);
@@ -41,26 +42,46 @@ class App extends PureComponent {
   }
 
   changePeriod = (key, step) => {
-    const that = this.state;
-    const startMonth = that[`${key}`].getMonth();
-    const newState = new Date(that[`${key}`]);
+    console.log('this', this);
+
+    const { state } = this;
+
+
+    const startMonth = state[key].getMonth();
+    console.log('startmonth', startMonth);
+    console.log('step', step);
+
+    const newState = new Date(state[key]);
+    console.log('newState', newState);
     newState.setMonth(startMonth + step);
+
     this.setState(() => ({ [`${key}`]: newState }));
   };
 
   changeCurrent = (key, newDate) => {
-    const that = this.state;
-    return (key === 'startingCurrent' && newDate > that.endingCurrent) ? this.setState({
-      endingCurrent: newDate,
-      endingPeriod: newDate,
-      [`${key}`]: new Date(newDate),
-    }) : this.setState({ [`${key}`]: new Date(newDate) });
+    const { state } = this;
+    this.NCalls += 1;
+    console.log('this.NCalls', this.NCalls);
+    console.log('key', key);
+
+    if (key === 'startingCurrent' && newDate > state.endingCurrent) {
+      this.setState(() => ({
+        endingCurrent: newDate,
+        endingPeriod: newDate,
+        startingCurrent: newDate,
+      }));
+    } else {
+      this.setState(() => ({ [key]: newDate }));
+    }
   }
 
   createEndPeriod = (start, monthValue, change) => {
-    const that = this.state;
-    const startMonth = that[`${start}`].getMonth();
-    const newState = new Date(that[`${start}`]);
+    const { state } = this;
+    console.log('this', this);
+    console.log('localeState', state);
+    console.log('start', start);
+    const startMonth = state[start].getMonth();
+    const newState = new Date(state[start]);
     newState.setMonth(startMonth + monthValue);
     this.setState({ [change]: newState });
   };
@@ -84,8 +105,8 @@ class App extends PureComponent {
               end={end}
               current={startingCurrent}
               period={startingPeriod}
-              changeCurrentValue={this.changeCurrent('startingCurrent')}
-              changeCurrentPeriod={this.changePeriod('startingPeriod')}
+              changeCurrentValue={newDate => this.changeCurrent('startingCurrent', newDate)}
+              changeCurrentPeriod={step => this.changePeriod('startingPeriod', step)}
             />
           </div>
           <div className="app__boxElement">
@@ -99,8 +120,8 @@ class App extends PureComponent {
               end={end}
               current={endingCurrent}
               period={endingPeriod}
-              changeCurrentValue={this.changeCurrent('endingCurrent')}
-              changeCurrentPeriod={this.changePeriod('endingPeriod')}
+              changeCurrentValue={newDate => this.changeCurrent('endingCurrent', newDate)}
+              changeCurrentPeriod={step => this.changePeriod('endingPeriod', step)}
             />
           </div>
         </div>

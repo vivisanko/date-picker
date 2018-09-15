@@ -16,6 +16,12 @@
       "rules": {
         "object-curly-newline": ["error", { "multiline": true,  "minProperties": 4 }],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-no-bind": [2, {"ignoreRefs": false,
+            "allowArrowFunctions": true,
+            "allowFunctions": false,
+            "allowBind": false
+          }
+        ],
         "semi": 2,
         "linebreak-style": 0,
         "no-console": 0

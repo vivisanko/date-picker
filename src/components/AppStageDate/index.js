@@ -31,12 +31,14 @@ class AppStageDate extends PureComponent {
     changeCurrentPeriod(step);
   };
 
-  handleDateClick = (day) => {
+  handleDateClick = (dayNumber) => {
     const {
       period, start, end, changeCurrentValue,
     } = this.props;
     const newDay = new Date(period);
-    newDay.setDate(day);
+    newDay.setDate(dayNumber);
+    console.log('newDay', newDay, dayNumber, new Date(period), period);
+
     if (Helpers.determineIsDateInInterval(start, newDay, end)) {
       changeCurrentValue(newDay);
     }
@@ -70,14 +72,14 @@ class AppStageDate extends PureComponent {
       <div className="appStageDate__box">
         <NavigationPanel
           period={period}
-          buttonClick={this.handleButtonClick}
+          buttonClick={event => (this.handleButtonClick(event))}
           isDisableNext={this.determineIsStepsDisable('next')}
           isDisablePrev={this.determineIsStepsDisable('prev')}
         />
 
         <MonthlyCalendar
           period={period}
-          dateClick={this.handleDateClick}
+          dateClick={dayNumber => this.handleDateClick(dayNumber)}
           userDay={this.determineIsItHasUserDay()}
           disableDates={this.findDisabledDates()}
         />
