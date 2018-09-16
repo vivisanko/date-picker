@@ -37,7 +37,6 @@ class AppStageDate extends PureComponent {
     } = this.props;
     const newDay = new Date(period);
     newDay.setDate(dayNumber);
-    console.log('newDay', newDay, dayNumber, new Date(period), period);
 
     if (Helpers.determineIsDateInInterval(start, newDay, end)) {
       changeCurrentValue(newDay);

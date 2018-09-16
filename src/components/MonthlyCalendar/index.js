@@ -11,10 +11,8 @@ class MonthlyCalendar extends PureComponent {
   }
 
   handleClick = (ind) => {
-    console.log('ind', ind);
     const { period, dateClick } = this.props;
     const monthDays = Helpers.createMonthDays(period);
-    console.log('monthDays', monthDays);
 
 
     if (monthDays[ind] !== '') {
