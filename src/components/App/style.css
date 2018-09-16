@@ -1,23 +1,28 @@
-
 .app {
-color: darkgray;
+  color: darkgray;
 }
 
-.app__title{
-font-size: 1.2rem;
+.app__title {
+  display: flex;
+  flex-wrap: wrap;
 }
-.app__dateTitle{
+.app__titleText {
+  font-size: 1.2rem;
+  align-self: flex-end;
+}
+.app__titleDate {
   font-size: 1.8rem;
-  }
-
+  flex-basis: 280px;
+  padding-left: 20px;
+}
 .app__dateBox {
   margin: auto;
   max-width: 800px;
- display:flex;
- flex-direction: row;
- align-items: flex-start;
- justify-content: center;
- flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .app__boxElement {
@@ -25,4 +30,3 @@ font-size: 1.2rem;
   flex-basis: 320px;
   padding: 0 10px;
 }
-

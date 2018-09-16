@@ -41,15 +41,10 @@ class App extends PureComponent {
   }
 
   changePeriod = (key, step) => {
-
     const { state } = this;
-
-
     const startMonth = state[key].getMonth();
-
     const newState = new Date(state[key]);
     newState.setMonth(startMonth + step);
-
     this.setState(() => ({ [`${key}`]: newState }));
   };
 
@@ -86,9 +81,11 @@ class App extends PureComponent {
       <div className="app">
         <div className="app__dateBox">
           <div className="app__boxElement">
-            <h1 className="app__dateTitle">
-              <span className="app__title">Starting </span>
-              {Helpers.createDateString(startingCurrent)}
+            <h1 className="app__title">
+              <span className="app__titleText">Starting </span>
+              <span className="app__titleDate">
+                {Helpers.createDateString(startingCurrent)}
+              </span>
             </h1>
             <AppStageDate
               key="starting"
@@ -101,9 +98,11 @@ class App extends PureComponent {
             />
           </div>
           <div className="app__boxElement">
-            <h1 className="app__dateTitle">
-              <span className="app__title">Ending </span>
-              {Helpers.createDateString(endingCurrent)}
+            <h1 className="app__title">
+              <span className="app__titleText">Ending </span>
+              <span className="app__titleDate">
+                {Helpers.createDateString(endingCurrent)}
+              </span>
             </h1>
             <AppStageDate
               key="ending"
