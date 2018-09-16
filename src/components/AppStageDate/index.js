@@ -67,7 +67,7 @@ class AppStageDate extends PureComponent {
   }
 
   render() {
-    const { period, current } = this.props;
+    const { period } = this.props;
     return (
       <div className="appStageDate__box">
         <NavigationPanel

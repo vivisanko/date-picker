@@ -20,6 +20,8 @@ class App extends PureComponent {
     this.NCalls = 0;
 
     this.createEndPeriod = this.createEndPeriod.bind(this);
+    this.changeCurrent = this.changeCurrent.bind(this);
+    this.changePeriod = this.changePeriod.bind(this);
   }
 
   componentWillMount() {
@@ -81,13 +83,14 @@ class App extends PureComponent {
     const startMonth = state[start].getMonth();
     const newState = new Date(state[start]);
     newState.setMonth(startMonth + monthValue);
-
     this.setState({ [change]: newState });
   };
 
 
   render() {
-    const { startingCurrent, start, end, startingPeriod, endingCurrent, endingPeriod } = this.state;
+    const {
+      startingCurrent, start, end, startingPeriod, endingCurrent, endingPeriod,
+    } = this.state;
     return (
       <div className="app">
         <div className="app__dateBox">
